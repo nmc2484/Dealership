@@ -24,10 +24,13 @@ public class DBConnection {
     private PreparedStatement onSaleCars;
     private PreparedStatement addCar;
     private PreparedStatement addToInventory;
+    private PreparedStatement totalCars;
 
     private int updateResult;
 
     private ResultSet result;
+
+    private String theTotalCars;
 
 
     public DBConnection(Properties props, String pswd){
@@ -70,7 +73,7 @@ public class DBConnection {
 
     public ResultSet showAllCars(){
         try{
-            showCars = conn.prepareStatement("SELECT * FROM INVENTORY");
+            showCars = conn.prepareStatement("SELECT * FROM Car");
             result = showCars.executeQuery();
         }
         catch(Exception e){
@@ -81,7 +84,7 @@ public class DBConnection {
 
     public ResultSet showAllCarsOnSale(){
         try{
-            onSaleCars = conn.prepareStatement("SELECT * FROM INVENTORY WHERE ");
+            onSaleCars = conn.prepareStatement("SELECT * FROM Inventory");
             result = onSaleCars.executeQuery();
         }
         catch(Exception e){
@@ -103,7 +106,7 @@ public class DBConnection {
             addCar.setString(7,props.getProperty("trasmission"));
             addCar.setString(8,props.getProperty("fuel_type"));
 
-            addToInventory = conn.prepareStatement("INSERT INTO INVENTORY VALUES (?, ?, ?, ?)");
+            addToInventory = conn.prepareStatement("INSERT INTO Inventory VALUES (?, ?, ?, ?)");
             addToInventory.setString(1,props.getProperty("VIN"));
             addToInventory.setString(2,props.getProperty("retail_price"));
             addToInventory.setString(3,props.getProperty("obtained_price"));
@@ -116,6 +119,19 @@ public class DBConnection {
             e.printStackTrace();
         }
         return updateResult;
+    }
+
+    public String getTotalCars(){
+        try{
+            totalCars = conn.prepareStatement("SELECT COUNT() FROM Inventory");
+            result = totalCars.executeQuery();
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+       return theTotalCars;  
+
     }
 
     public int executeUpdate(String s) throws SQLException {

@@ -37,6 +37,15 @@ public class Service extends JPanel {
                 props.put("Color",serviceSet.getString("color"));
                 props.put("Transmission",serviceSet.getString("transmission"));
                 props.put("FuelType",serviceSet.getString("fuel_type"));
+                props.put("Customer ID", serviceSet.getString("customer_id"));
+                props.put("Date In", serviceSet.getString("date_in"));
+                if(serviceSet.getString("date_out") == null) {
+                	props.put("Date Out", "");
+                } else {
+                	props.put("Date Out", serviceSet.getString("date_out"));
+                }
+                props.put("Cost", serviceSet.getString("cost"));
+                props.put("Service Type", serviceSet.getString("service_type"));
                 buttons.add(new GridMenuItem(dbcon,props));
             }
         }catch (SQLException e){

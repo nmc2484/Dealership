@@ -91,6 +91,14 @@ public class AddAServiceCar extends JPanel {
                 DatabaseUI.refresh(panel);
             }
         });
+        
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {               
+                JPanel panel = new Service(dbconn);
+                DatabaseUI.refresh(panel);
+            }
+        });
 
         this.add(tPanel,BorderLayout.NORTH);
         this.add(cPanel, BorderLayout.CENTER);

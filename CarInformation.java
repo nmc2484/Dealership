@@ -21,8 +21,11 @@ public class CarInformation extends JPanel {
     private JLabel carRetailPrice;
     private JLabel carTransmission;
     private JLabel carVin;
-
-
+    private JLabel customerId;
+    private JLabel dateIn;
+    private JLabel dateOut;
+    private JLabel cost;
+    private JLabel serviceType;
 
 
     public CarInformation(DBConnection conn, Properties props){
@@ -44,6 +47,11 @@ public class CarInformation extends JPanel {
         carVin = new JLabel         ("VIN of the car"+"----------------------------"+props.getProperty("VIN"));
         carRetailPrice = new JLabel ("Price of the car"+"-------------------------"+props.getProperty("RetailPrice"));
         
+        customerId = new JLabel		("Customer ID"+"-------------------------"+props.getProperty("Customer ID"));
+        dateIn = new JLabel			("Date In"+"-------------------------"+props.getProperty("Date In"));
+        dateOut = new JLabel		("Date Out"+"-------------------------"+props.getProperty("Date Out"));
+        cost = new JLabel			("Cost"+"-------------------------"+props.getProperty("Cost"));
+        serviceType = new JLabel	("Service Type"+"-------------------------"+props.getProperty("Service Type"));
         
         centerGrid.add(carVin);
         centerGrid.add(carName);
@@ -62,6 +70,15 @@ public class CarInformation extends JPanel {
         centerGrid.add(carTransmission);
         centerGrid.add(carType);
         centerGrid.add(carYear);
+        
+        if(props.getProperty("RetailPrice") == null) {
+        	centerGrid.add(new JLabel("\n"));
+        	centerGrid.add(customerId);
+        	centerGrid.add(dateIn);
+        	centerGrid.add(dateOut);
+        	centerGrid.add(cost);
+        	centerGrid.add(serviceType);
+        }
         
 
         this.add(topFlowPanel, BorderLayout.NORTH);

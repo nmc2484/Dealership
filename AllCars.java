@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
  */
 public class AllCars extends JPanel {
 
-    private JButton addNewCar, deleteCar, viewCars;
+    private JButton refreshView;
     private JPanel frame, topView;
     private JLabel numberOfCars;
     private String totalCars;
@@ -22,25 +22,14 @@ public class AllCars extends JPanel {
         frame = new JPanel();
         frame.setLayout(new BorderLayout());
         topView = new JPanel();
-        addNewCar = new JButton("ADD A CAR");
-        addNewCar.addActionListener(new ActionListener() {
+        refreshView = new JButton("Refresh");
+        refreshView.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                // Create dialog box
-            }
-        });
-        deleteCar = new JButton("DELETE A CAR");
-        deleteCar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                // Create dialog box
-            }
-        });
-        viewCars = new JButton("VIEW ALL CARS");
-
-        viewCars.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                // Display all cars
             	results.setText("");
-                results.setText(DatabaseUI.exQuery.executeResults("select * from car", dbc));
+            	results.setText(DatabaseUI.exQuery.executeResults("select * from car", dbc));
+            	String countResult = DatabaseUI.exQuery.executeResults("select count(VIN) from car", dbc);
+            	String[] countResultTok = countResult.split("\\s+");
+            	numberOfCars.setText("# OF CARS: " + countResultTok[countResultTok.length - 1]); 
             }
         });
         numberOfCars = new JLabel("# OF CARS: ");
@@ -58,12 +47,17 @@ public class AllCars extends JPanel {
         frame.add(scrollResults, BorderLayout.CENTER);
         
         topView.setLayout(new FlowLayout(FlowLayout.LEFT));
-        topView.add(addNewCar);
-        topView.add(deleteCar);
-        topView.add(viewCars);
+        topView.add(refreshView);
         topView.add(numberOfCars);
         
         this.add(frame);
+        
+        // Execute Query
+        results.setText("");
+    	results.setText(DatabaseUI.exQuery.executeResults("select * from car", dbc));
+    	String countResult = DatabaseUI.exQuery.executeResults("select count(VIN) from car", dbc);
+    	String[] countResultTok = countResult.split("\\s+");
+    	numberOfCars.setText("# OF CARS: " + countResultTok[countResultTok.length - 1]); 
     }
 
 

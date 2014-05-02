@@ -18,6 +18,7 @@ public class DatabaseUI {
     private JButton service;
     private JButton testDrive;
     private JButton sqlInput;
+    private JButton report;
 
     private static DBConnection db;
 
@@ -35,8 +36,7 @@ public class DatabaseUI {
 
 
     private JPanel west;
-    private JPanel allCarsPane, inventoryPane, soldPane, servicePane, testDrivePane, sqlInputPane;
-    private JPanel mainDisplay;
+    private JPanel allCarsPane, inventoryPane, sqlInputPane, reportPane, soldPane, servicePane;
     private static JPanel center;
     
     private CardLayout cl;
@@ -79,21 +79,7 @@ public class DatabaseUI {
         }
         
         // Create singleton ExecuteQuery
-        exQuery = ExecuteQuery.getInstance();
-        
-        sqlInputPane = new SqlInput(dbConnection);
-        allCarsPane = new AllCars(dbConnection);
-
-        
-       // cl = new CardLayout();
-       // mainDisplay = new JPanel(cl);
-       // mainDisplay.add(sqlInputPane, "sqlInputPane");
-       // mainDisplay.add(allCarsPane, "allCarsPane");
-        //mainDisplay.add(inventoryPane);
-        //mainDisplay.add(soldPane);
-        //mainDisplay.add(servicePane);
-        //mainDisplay.add(testDrivePane);
-        //frame.add(mainDisplay, BorderLayout.CENTER);
+        exQuery = ExecuteQuery.getInstance();        
 
     }
 
@@ -101,22 +87,30 @@ public class DatabaseUI {
     public JPanel createLeftPanel(){
 
         west = new JPanel();
-        west.setLayout(new GridLayout(6,1));
+        west.setLayout(new GridLayout(7,1));
 
         //Creates the buttons for the panel
+        report = new JButton("Report");
+        report.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	reportPane = new Report(dbConnection);
+            	refresh(reportPane);
+            }
+        });
+        
         sqlInput = new JButton("SQL Input");
         sqlInput.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-               refresh(sqlInputPane);
-               // cl.show(mainDisplay, "sqlInputPane");
+            	sqlInputPane = new SqlInput(dbConnection);
+            	refresh(sqlInputPane);
             }
         });
 
         allCars = new JButton("All Cars");        
         allCars.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		allCarsPane = new AllCars(dbConnection);
                 refresh(allCarsPane);
-        		//cl.show(mainDisplay, "allCarsPane");
         	}
         });
 
@@ -125,17 +119,28 @@ public class DatabaseUI {
             public void actionPerformed(ActionEvent e) {
                 inventoryPane = new Inventory(dbConnection);
                 refresh(inventoryPane);
-                //cl.show(mainDisplay, "allCarsPane");
+            }
+        });
+        
+        sold = new JButton("Sold");
+        sold.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                soldPane = new Sold(dbConnection);
+                refresh(soldPane);
             }
         });
 
-        sold = new JButton("Sold");
-
         service = new JButton("Car on Service");
+        service.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                servicePane = new Service(dbConnection);
+                refresh(servicePane);
+            }
+        });
 
         testDrive = new JButton("Cars on Test Drive");
 
-
+        west.add(report);
         west.add(sqlInput);
         west.add(allCars);
         west.add(inventory);

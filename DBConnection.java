@@ -32,6 +32,7 @@ public class DBConnection {
     private PreparedStatement removecar;
     private PreparedStatement customers;
     private PreparedStatement employees;
+    private PreparedStatement carVin;
 
     private PreparedStatement serviceInformation;
 
@@ -239,6 +240,17 @@ public class DBConnection {
         return  result;
     }
 
+    public ResultSet getCarVin() {
+    	try{
+            carVin = conn.prepareStatement("SELECT VIN FROM car");
+            result = carVin.executeQuery();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  result;
+    }
+    
     public int executeUpdate(String s) throws SQLException {
         return stat.executeUpdate(s);
     }

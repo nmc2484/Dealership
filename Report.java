@@ -36,7 +36,7 @@ public class Report extends JPanel {
         report2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	description.setText("Reports on the total profit from car sales each month by model and salesman");
-            	
+            	results.setText("");
             }
         });
         
@@ -45,7 +45,7 @@ public class Report extends JPanel {
             public void actionPerformed(ActionEvent e){
             	description.setText("Reports on car sales per month with info on if the customer took a test " +
             			"drive before purchasing the car, and what employees helped them, which information summarized");
-            	
+            	results.setText("");
             }
         });
         
@@ -54,7 +54,7 @@ public class Report extends JPanel {
             public void actionPerformed(ActionEvent e){
             	description.setText("A monthy report on total number of cars sold by make - " +
             			"with summary information on model and salesman");
-            	
+            	results.setText("");
             }
         });
         

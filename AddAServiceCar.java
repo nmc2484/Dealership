@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.util.Properties;
+import java.util.Vector;
 
 public class AddAServiceCar extends JPanel {
     private Properties carProops;
@@ -22,12 +24,15 @@ public class AddAServiceCar extends JPanel {
     ,thecost
     ,theservicetype;
 
-    private JTextField vinfield
-    ,customeridfield
+    private JTextField customeridfield
     ,dateinfield
     ,costfield
     ,servicetypefield;
+    
+    private JComboBox vinfield;
+    private Vector<String> vinVector;
 
+    private ResultSet Results;
 
     public AddAServiceCar(DBConnection dbcon){
         this.dbconn =dbcon;
@@ -45,8 +50,10 @@ public class AddAServiceCar extends JPanel {
         thecost = new JLabel("Enter Service Cost");
         theservicetype = new JLabel("Enter service description");
 
-
-        vinfield = new JTextField();
+        vinVector = new Vector<String>();
+        getVin();
+        vinfield = new JComboBox(vinVector);
+        
         customeridfield = new JTextField();
         dateinfield = new JTextField();
         costfield = new JTextField();
@@ -73,7 +80,7 @@ public class AddAServiceCar extends JPanel {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                carProops.put("VIN", vinfield.getText());
+                carProops.put("VIN", vinfield.getSelectedItem());
                 carProops.put("customer_id", customeridfield.getText());
                 carProops.put("date_in", dateinfield.getText());
                 carProops.put("cost",costfield.getText());
@@ -101,5 +108,18 @@ public class AddAServiceCar extends JPanel {
 
     }
 
+    public Vector<String> getVin(){
+        Results = dbconn.getCarVin();
+        try{
+            while(Results.next()){
+                vinVector.add(Results.getString("VIN"));
+
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return vinVector;
+
+    }
 
 }

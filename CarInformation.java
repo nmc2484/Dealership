@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Properties;
 
 /**
@@ -27,8 +29,10 @@ public class CarInformation extends JPanel {
     private JLabel cost;
     private JLabel serviceType;
 
+    private final  JFrame topFrame;
 
-    public CarInformation(DBConnection conn, Properties props){
+
+    public CarInformation(DBConnection conn, final Properties props){
         this.dbconn = conn;
         this.setLayout(new BorderLayout());
         sellCar = new JButton("Sell The Car");
@@ -53,6 +57,17 @@ public class CarInformation extends JPanel {
         cost = new JLabel			("Cost"+"-------------------------"+props.getProperty("Cost"));
         serviceType = new JLabel	("Service Type"+"-------------------------"+props.getProperty("Service Type"));
         
+
+        topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+
+        sellCar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JDialog sell = new SellACar(topFrame,dbconn,props.getProperty("VIN"));
+                sell.setVisible(true);
+            }
+        });
+
         centerGrid.add(carVin);
         centerGrid.add(carName);
         centerGrid.add(carColor);

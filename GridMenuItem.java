@@ -20,7 +20,7 @@ public class GridMenuItem {
 	//Image of the object
 
     public  GridMenuItem(DBConnection conn,Properties props){
-        createButton(conn,props);
+               createButton(conn,props);
     }
 
 

@@ -27,15 +27,22 @@ public class DBConnection {
     private PreparedStatement addToService;
     private PreparedStatement totalCars;
     private PreparedStatement inventoryCarInformation;
+
+    private PreparedStatement sellCar;
+    private PreparedStatement removecar;
+
     private PreparedStatement serviceInformation;
     private PreparedStatement report1;
     private PreparedStatement report2;
     private PreparedStatement report3;
     private PreparedStatement report4;
 
+
     private int updateResult;
+    private int updateResult2;
 
     private ResultSet result;
+    private ResultSet result2;
 
     private String theTotalCars;
 
@@ -207,6 +214,34 @@ public class DBConnection {
     
     public ResultSet getReport4() {
     	return null;
+    }
+
+    public int removeCarFromInventory(String Vin){
+        try{
+            removecar =conn.prepareStatement("DELETE FROM inventory WHERE VIN = ?");
+            removecar.setString(1,Vin);
+            updateResult2 =removecar.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return updateResult2;
+    }
+
+    public int sellACar(Properties carprops){
+        try{
+            sellCar = conn.prepareStatement("INSERT INTO sold VALUES(?,?,?,?,?)");
+            sellCar.setString(1,carprops.getProperty("Vin"));
+            sellCar.setString(2,carprops.getProperty("date_sold"));
+            sellCar.setString(3,carprops.getProperty("customer_id"));
+            sellCar.setString(4,carprops.getProperty("employee_id"));
+            sellCar.setString(5,carprops.getProperty("price_sold"));
+            updateResult = sellCar.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        removeCarFromInventory(carprops.getProperty("Vin"));
+        return updateResult;
+
     }
 
     public int executeUpdate(String s) throws SQLException {

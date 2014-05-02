@@ -19,14 +19,12 @@ public class AddAServiceCar extends JPanel {
     private JLabel theVin
     ,thecustomerid
     ,thedatein
-    ,thedateout
     ,thecost
     ,theservicetype;
 
     private JTextField vinfield
     ,customeridfield
     ,dateinfield
-    ,dateoutfield
     ,costfield
     ,servicetypefield;
 
@@ -39,12 +37,11 @@ public class AddAServiceCar extends JPanel {
         tPanel = new JPanel();
         this.setLayout(new BorderLayout());
         cPanel = new JPanel();
-        cPanel.setLayout(new GridLayout(11,11));
+        cPanel.setLayout(new GridLayout(8,8));
 
         theVin = new JLabel("Enter Vin");
         thecustomerid = new JLabel("Enter Customer ID");
         thedatein = new JLabel("Enter Date In");
-        thedateout = new JLabel("Enter Date Out");
         thecost = new JLabel("Enter Service Cost");
         theservicetype = new JLabel("Enter service description");
 
@@ -52,7 +49,6 @@ public class AddAServiceCar extends JPanel {
         vinfield = new JTextField();
         customeridfield = new JTextField();
         dateinfield = new JTextField();
-        dateoutfield = new JTextField();
         costfield = new JTextField();
         servicetypefield = new JTextField();     
 
@@ -68,9 +64,6 @@ public class AddAServiceCar extends JPanel {
         cPanel.add(thedatein);
         cPanel.add(dateinfield);
 
-        cPanel.add(thedateout);
-        cPanel.add(dateoutfield);
-
         cPanel.add(thecost);
         cPanel.add(costfield);
 
@@ -83,7 +76,6 @@ public class AddAServiceCar extends JPanel {
                 carProops.put("VIN", vinfield.getText());
                 carProops.put("customer_id", customeridfield.getText());
                 carProops.put("date_in", dateinfield.getText());
-                carProops.put("date_out", dateoutfield.getText());
                 carProops.put("cost",costfield.getText());
                 carProops.put("service_type", servicetypefield.getText());
                 dbconn.addCarToService(carProops);

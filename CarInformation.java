@@ -38,9 +38,7 @@ public class CarInformation extends JPanel {
         sellCar = new JButton("Sell The Car");
         removeCar = new JButton("Remove Car");
         editCar = new JButton("Edit Car information");
-        removeFromService = new JButton("Remove From Service");
-        removeFromService.setEnabled(true);
-        if(!props.getProperty("Date Out").isEmpty()) removeFromService.setEnabled(false);
+        removeFromService = new JButton("Remove From Service");        
         centerGrid = new JPanel();
         centerGrid.setLayout(new GridLayout(20,1));
         topFlowPanel = new JPanel();
@@ -92,6 +90,7 @@ public class CarInformation extends JPanel {
             topFlowPanel.add(removeCar, BorderLayout.EAST);
             topFlowPanel.add(editCar, BorderLayout.CENTER);
         } else {
+        	if(!props.getProperty("Date Out").isEmpty()) removeFromService.setEnabled(false);
         	topFlowPanel.add(removeFromService, BorderLayout.CENTER);
         }
         

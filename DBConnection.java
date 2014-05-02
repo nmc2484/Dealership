@@ -30,6 +30,8 @@ public class DBConnection {
 
     private PreparedStatement sellCar;
     private PreparedStatement removecar;
+    private PreparedStatement customers;
+    private PreparedStatement employees;
 
     private PreparedStatement serviceInformation;
     private PreparedStatement report1;
@@ -242,6 +244,29 @@ public class DBConnection {
         removeCarFromInventory(carprops.getProperty("Vin"));
         return updateResult;
 
+    }
+
+    public ResultSet getAllCustomers(){
+        try{
+            customers = conn.prepareStatement("SELECT customer_id FROM customer");
+            result2 = customers.executeQuery();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return  result2;
+
+    }
+
+    public ResultSet getAllEmployees(){
+        try{
+            employees = conn.prepareStatement("SELECT employee_id FROM employee");
+            result = employees.executeQuery();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  result;
     }
 
     public int executeUpdate(String s) throws SQLException {

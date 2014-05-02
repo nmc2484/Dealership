@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +32,6 @@ public class CarInformation extends JPanel {
 
     private final  JFrame topFrame;
 
-
     public CarInformation(DBConnection conn, final Properties props){
         this.dbconn = conn;
         this.setLayout(new BorderLayout());
@@ -39,6 +39,8 @@ public class CarInformation extends JPanel {
         removeCar = new JButton("Remove Car");
         editCar = new JButton("Edit Car information");
         removeFromService = new JButton("Remove From Service");
+        removeFromService.setEnabled(true);
+        if(!props.getProperty("Date Out").isEmpty()) removeFromService.setEnabled(false);
         centerGrid = new JPanel();
         centerGrid.setLayout(new GridLayout(20,1));
         topFlowPanel = new JPanel();
@@ -67,7 +69,19 @@ public class CarInformation extends JPanel {
                 sell.setVisible(true);
             }
         });
-
+        
+        removeFromService.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+            	String date_out = (String)JOptionPane.showInputDialog(topFrame, "Date of service completed: ", 
+            			"Date Out", JOptionPane.PLAIN_MESSAGE, null, null, null);
+                DatabaseUI.exQuery.executeResults("UPDATE service SET date_out=\"" + date_out + "\" WHERE VIN=\"" + 
+            			props.getProperty("VIN") + "\"", dbconn);
+                JPanel panel = new Service(dbconn);
+                DatabaseUI.refresh(panel);
+            }
+        });
+        
         centerGrid.add(carVin);
         centerGrid.add(carName);
         centerGrid.add(carColor);

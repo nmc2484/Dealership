@@ -26,7 +26,9 @@ public class Report extends JPanel {
             public void actionPerformed(ActionEvent e){
                 description.setText("Reports on the total number of cars sold each month for a year, " +
                 		"with make, model and if these cars had service on them during that year");
-                
+                results.setText(DatabaseUI.exQuery.executeResults("select car.VIN, make, model, date_in, date_out, " +
+                		"service_type from car natural join sold left join service on car.VIN = service.VIN " +
+                		"where date_in between '2013-01-01' and '2014-01-01' group by MONTH(date_in);", dbc));
             }
         });
         

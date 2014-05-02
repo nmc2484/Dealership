@@ -34,10 +34,6 @@ public class DBConnection {
     private PreparedStatement employees;
 
     private PreparedStatement serviceInformation;
-    private PreparedStatement report1;
-    private PreparedStatement report2;
-    private PreparedStatement report3;
-    private PreparedStatement report4;
 
 
     private int updateResult;
@@ -190,32 +186,6 @@ public class DBConnection {
         }
        return theTotalCars;  
 
-    }
-    
-    public ResultSet getReport1() {
-    	try{
-            report1 = conn.prepareStatement("select VIN, make, model, date_in, date_out, service_type " +
-            		"from car natural join service where date_in >= " +
-            		"DATE_SUB(NOW(), INTERVAL 1 YEAR) by MONTH(date_in);");
-            result = report1.executeQuery();
-
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-       return null;  
-    }
-    
-    public ResultSet getReport2() {
-    	return null;
-    }
-    
-    public ResultSet getReport3() {
-    	return null;
-    }
-    
-    public ResultSet getReport4() {
-    	return null;
     }
 
     public int removeCarFromInventory(String Vin){

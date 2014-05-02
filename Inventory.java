@@ -52,7 +52,7 @@ public class Inventory extends JPanel {
             }
         });
 
-        ButtonPanel = new GridButtonPanel("Inventory", buttons,null);
+        ButtonPanel = new GridButtonPanel("Inventory",buttons,null);
         this.add(addCar, BorderLayout.NORTH);
         this.add(ButtonPanel, BorderLayout.CENTER);
 

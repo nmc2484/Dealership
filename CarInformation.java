@@ -12,6 +12,7 @@ public class CarInformation extends JPanel {
     private JButton sellCar;
     private JButton removeCar;
     private JButton editCar; // this might involve a lot of stuff.
+    private JButton removeFromService;
     private JPanel centerGrid;
     private JPanel topFlowPanel;
     private JLabel carName;
@@ -33,6 +34,7 @@ public class CarInformation extends JPanel {
         sellCar = new JButton("Sell The Car");
         removeCar = new JButton("Remove Car");
         editCar = new JButton("Edit Car information");
+        removeFromService = new JButton("Remove From Service");
         centerGrid = new JPanel();
         centerGrid.setLayout(new GridLayout(20,1));
         topFlowPanel = new JPanel();
@@ -44,6 +46,7 @@ public class CarInformation extends JPanel {
         carFuelType = new JLabel    ("Fuel type of the car"+"-------------------"+props.getProperty("FuelType"));
         carVin = new JLabel         ("VIN of the car"+"----------------------------"+props.getProperty("VIN"));
         carRetailPrice = new JLabel ("Price of the car"+"-------------------------"+props.getProperty("RetailPrice"));
+
         topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
         sellCar.addActionListener(new ActionListener() {
@@ -54,18 +57,25 @@ public class CarInformation extends JPanel {
             }
         });
 
+
         centerGrid.add(carVin);
         centerGrid.add(carName);
         centerGrid.add(carColor);
-        centerGrid.add(carRetailPrice);
+        
+        if(props.getProperty("RetailPrice") != null) {
+        	centerGrid.add(carRetailPrice);
+        	topFlowPanel.add(sellCar, BorderLayout.WEST);
+            topFlowPanel.add(removeCar, BorderLayout.EAST);
+            topFlowPanel.add(editCar, BorderLayout.CENTER);
+        } else {
+        	topFlowPanel.add(removeFromService, BorderLayout.CENTER);
+        }
+        
         centerGrid.add(carFuelType);
         centerGrid.add(carTransmission);
         centerGrid.add(carType);
         centerGrid.add(carYear);
-
-        topFlowPanel.add(sellCar, BorderLayout.WEST);
-        topFlowPanel.add(removeCar, BorderLayout.EAST);
-        topFlowPanel.add(editCar, BorderLayout.CENTER);
+        
 
         this.add(topFlowPanel, BorderLayout.NORTH);
         this.add(centerGrid, BorderLayout.CENTER);

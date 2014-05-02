@@ -24,10 +24,19 @@ public class DBConnection {
     private PreparedStatement onSaleCars;
     private PreparedStatement addCar;
     private PreparedStatement addToInventory;
+    private PreparedStatement addToService;
     private PreparedStatement totalCars;
     private PreparedStatement inventoryCarInformation;
+
     private PreparedStatement sellCar;
     private PreparedStatement removecar;
+
+    private PreparedStatement serviceInformation;
+    private PreparedStatement report1;
+    private PreparedStatement report2;
+    private PreparedStatement report3;
+    private PreparedStatement report4;
+
 
     private int updateResult;
     private int updateResult2;
@@ -109,6 +118,17 @@ public class DBConnection {
         return result;
 
     }
+    
+    public ResultSet getAllServiceInformation() {
+    	try {
+    		serviceInformation = conn.prepareStatement("SELECT * FROM car NATURAL JOIN service");
+    		result = serviceInformation.executeQuery();
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return result;
+    }
 
     public int addCarToInventory(Properties props){
         try{
@@ -137,6 +157,25 @@ public class DBConnection {
         }
         return updateResult;
     }
+    
+    public int addCarToService(Properties props) {
+    	try{
+            addToService =conn.prepareStatement("INSERT INTO service VALUES (?, ?, ?, ?, ?, ?)");
+
+            addToService.setString(1,props.getProperty("VIN"));
+            addToService.setString(2,props.getProperty("customer_id"));
+            addToService.setString(3,props.getProperty("date_in"));
+            addToService.setString(4,props.getProperty("date_out"));
+            addToService.setString(5,props.getProperty("cost"));
+            addToService.setString(6,props.getProperty("service_type"));
+
+            updateResult = addToService.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return updateResult;
+    }
 
     public String getTotalCars(){
         try{
@@ -149,6 +188,32 @@ public class DBConnection {
         }
        return theTotalCars;  
 
+    }
+    
+    public ResultSet getReport1() {
+    	try{
+            report1 = conn.prepareStatement("select VIN, make, model, date_in, date_out, service_type " +
+            		"from car natural join service where date_in >= " +
+            		"DATE_SUB(NOW(), INTERVAL 1 YEAR) by MONTH(date_in);");
+            result = report1.executeQuery();
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+       return null;  
+    }
+    
+    public ResultSet getReport2() {
+    	return null;
+    }
+    
+    public ResultSet getReport3() {
+    	return null;
+    }
+    
+    public ResultSet getReport4() {
+    	return null;
     }
 
     public int removeCarFromInventory(String Vin){

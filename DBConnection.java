@@ -25,6 +25,7 @@ public class DBConnection {
     private PreparedStatement addCar;
     private PreparedStatement addToInventory;
     private PreparedStatement totalCars;
+    private PreparedStatement inventoryCarInformation;
 
     private int updateResult;
 
@@ -73,7 +74,7 @@ public class DBConnection {
 
     public ResultSet showAllCars(){
         try{
-            showCars = conn.prepareStatement("SELECT * FROM Car");
+            showCars = conn.prepareStatement("SELECT * FROM car");
             result = showCars.executeQuery();
         }
         catch(Exception e){
@@ -93,9 +94,21 @@ public class DBConnection {
         return result;
     }
 
+    public ResultSet getAllInventoryCarInformation(){
+        try{
+            inventoryCarInformation = conn.prepareStatement("SELECT * FROM inventory NATURAL JOIN car");
+            result = inventoryCarInformation.executeQuery();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+
     public int addCarToInventory(Properties props){
         try{
-            addCar =conn.prepareStatement("INSERT INTO CAR VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            addCar =conn.prepareStatement("INSERT INTO car VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
             addCar.setString(1,props.getProperty("VIN"));
             addCar.setString(2,props.getProperty("make"));
@@ -103,10 +116,10 @@ public class DBConnection {
             addCar.setString(4,props.getProperty("year"));
             addCar.setString(5,props.getProperty("type"));
             addCar.setString(6,props.getProperty("color"));
-            addCar.setString(7,props.getProperty("trasmission"));
+            addCar.setString(7,props.getProperty("transmission"));
             addCar.setString(8,props.getProperty("fuel_type"));
 
-            addToInventory = conn.prepareStatement("INSERT INTO Inventory VALUES (?, ?, ?, ?)");
+            addToInventory = conn.prepareStatement("INSERT INTO inventory VALUES (?, ?, ?, ?)");
             addToInventory.setString(1,props.getProperty("VIN"));
             addToInventory.setString(2,props.getProperty("retail_price"));
             addToInventory.setString(3,props.getProperty("obtained_price"));
@@ -123,7 +136,7 @@ public class DBConnection {
 
     public String getTotalCars(){
         try{
-            totalCars = conn.prepareStatement("SELECT COUNT() FROM Inventory");
+            totalCars = conn.prepareStatement("SELECT COUNT() FROM inventory");
             result = totalCars.executeQuery();
 
         }

@@ -35,6 +35,11 @@ public class DatabaseUI {
 
 
     private JPanel west;
+    private JPanel allCarsPane, inventoryPane, soldPane, servicePane, testDrivePane, sqlInputPane;
+    private JPanel mainDisplay;
+    private static JPanel center;
+    
+    private CardLayout cl;
 
     private ConnectionUI cui;
 
@@ -44,7 +49,7 @@ public class DatabaseUI {
     private ConnectionProps inputProps;
     private DBConnection dbConnection;
 
-
+    public static ExecuteQuery exQuery;
 
 
     public DatabaseUI(){
@@ -56,7 +61,8 @@ public class DatabaseUI {
         west = createLeftPanel();
         frame.getContentPane().add(west, BorderLayout.WEST);
         frame.setVisible(true);
-
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         cProps = new ConnectionProps();
         cui = new ConnectionUI(frame, cProps.props);
         cui.setVisible(true);
@@ -71,6 +77,23 @@ public class DatabaseUI {
             JOptionPane.showMessageDialog(frame,"Database connection cannot be established. The application will be closed.", "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
+        
+        // Create singleton ExecuteQuery
+        exQuery = ExecuteQuery.getInstance();
+        
+        sqlInputPane = new SqlInput(dbConnection);
+        allCarsPane = new AllCars(dbConnection);
+
+        
+       // cl = new CardLayout();
+       // mainDisplay = new JPanel(cl);
+       // mainDisplay.add(sqlInputPane, "sqlInputPane");
+       // mainDisplay.add(allCarsPane, "allCarsPane");
+        //mainDisplay.add(inventoryPane);
+        //mainDisplay.add(soldPane);
+        //mainDisplay.add(servicePane);
+        //mainDisplay.add(testDrivePane);
+        //frame.add(mainDisplay, BorderLayout.CENTER);
 
     }
 
@@ -84,14 +107,27 @@ public class DatabaseUI {
         sqlInput = new JButton("SQL Input");
         sqlInput.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                JPanel newPanel = new SqlInput(dbConnection);
-                refresh(newPanel);
+               refresh(sqlInputPane);
+               // cl.show(mainDisplay, "sqlInputPane");
             }
         });
 
-        allCars = new JButton("All Cars");
+        allCars = new JButton("All Cars");        
+        allCars.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+                refresh(allCarsPane);
+        		//cl.show(mainDisplay, "allCarsPane");
+        	}
+        });
 
         inventory = new JButton("Inventory");
+        inventory.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                inventoryPane = new Inventory(dbConnection);
+                refresh(inventoryPane);
+                //cl.show(mainDisplay, "allCarsPane");
+            }
+        });
 
         sold = new JButton("Sold");
 
@@ -113,8 +149,12 @@ public class DatabaseUI {
 
 
     public static void refresh(JPanel pnaelA){
-        frame.add(pnaelA, BorderLayout.CENTER);
-        frame.revalidate();
+        if (center != null){
+            center.removeAll();
+        }
+        center = pnaelA;
+        frame.add(center, BorderLayout.CENTER);
+        frame.validate();
     }
 
 

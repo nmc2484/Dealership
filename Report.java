@@ -36,7 +36,9 @@ public class Report extends JPanel {
         report2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	description.setText("Reports on the total profit from car sales each month by model and salesman");
-            	results.setText("");
+            	results.setText(DatabaseUI.exQuery.executeResults("select sold.VIN, price_sold*0.25 as profit, person_id, " +
+            			"first_name, last_name, model from sold inner join person on sold.employee_id=person.person_id " +
+            			"inner join car on sold.VIN=car.VIN group by date_sold, person_id, model", dbc));
             }
         });
         
@@ -45,7 +47,11 @@ public class Report extends JPanel {
             public void actionPerformed(ActionEvent e){
             	description.setText("Reports on car sales per month with info on if the customer took a test " +
             			"drive before purchasing the car, and what employees helped them, which information summarized");
-            	results.setText("");
+            	results.setText(DatabaseUI.exQuery.executeResults("select MONTH(date_sold) as \"Month\", sold.vin, make, " +
+            			"model, year, date_tested, first_name as \"Employee First Name\", last_name as " +
+            			"\"Employee Last Name\" from sold left join test_drive on sold.vin=test_drive.vin " +
+            			"inner join car on sold.vin=car.vin inner join person on sold.employee_id=person.person_id " +
+            			"group by MONTH(date_sold), sold.vin", dbc));
             }
         });
         
@@ -54,7 +60,9 @@ public class Report extends JPanel {
             public void actionPerformed(ActionEvent e){
             	description.setText("A monthy report on total number of cars sold by make - " +
             			"with summary information on model and salesman");
-            	results.setText("");
+            	results.setText(DatabaseUI.exQuery.executeResults("select MONTH(date_sold) as Month, count(sold.vin) " +
+            			"as \"# sold\", make from sold inner join car on sold.vin=car.vin group by MONTH(date_sold), " +
+            			"make", dbc));
             }
         });
         

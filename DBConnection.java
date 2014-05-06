@@ -25,6 +25,7 @@ public class DBConnection {
     private PreparedStatement addCar;
     private PreparedStatement addToInventory;
     private PreparedStatement addToService;
+    private PreparedStatement addToTestDrive;
     private PreparedStatement totalCars;
     private PreparedStatement inventoryCarInformation;
 
@@ -35,6 +36,7 @@ public class DBConnection {
     private PreparedStatement carVin;
 
     private PreparedStatement serviceInformation;
+    private PreparedStatement testDriveInformation;
 
 
     private int updateResult;
@@ -128,6 +130,19 @@ public class DBConnection {
     	}
     	return result;
     }
+    
+    public ResultSet getAllTestDriveInformation() {
+    	try {
+    		testDriveInformation = conn.prepareStatement("select * from test_drive inner join person as c on " +
+    				"test_drive.customer_id=c.person_id inner join person as e on test_drive.employee_id=e.person_id " +
+    				"inner join car on test_drive.VIN=car.VIN");
+    		result = testDriveInformation.executeQuery();
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return result;
+    }
 
     public int addCarToInventory(Properties props){
         try{
@@ -169,6 +184,23 @@ public class DBConnection {
             addToService.setString(6,props.getProperty("service_type"));
 
             updateResult = addToService.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return updateResult;
+    }
+    
+    public int addCarToTestDrive(Properties props) {
+    	try{
+            addToTestDrive =conn.prepareStatement("INSERT INTO test_drive VALUES (?, ?, ?, ?)");
+
+            addToTestDrive.setString(1,props.getProperty("VIN"));
+            addToTestDrive.setString(2,props.getProperty("date_tested"));
+            addToTestDrive.setString(3,props.getProperty("employee_id"));
+            addToTestDrive.setString(4,props.getProperty("customer_id"));
+
+            updateResult = addToTestDrive.executeUpdate();
         }
         catch(Exception e){
             e.printStackTrace();

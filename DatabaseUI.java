@@ -36,7 +36,7 @@ public class DatabaseUI {
 
 
     private JPanel west;
-    private JPanel allCarsPane, inventoryPane, sqlInputPane, reportPane, soldPane, servicePane;
+    private JPanel allCarsPane, inventoryPane, sqlInputPane, reportPane, soldPane, servicePane, testDrivePane;
     private static JPanel center;
     
     private CardLayout cl;
@@ -139,6 +139,12 @@ public class DatabaseUI {
         });
 
         testDrive = new JButton("Cars on Test Drive");
+        testDrive.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                testDrivePane = new TestDrive(dbConnection);
+                refresh(testDrivePane);
+            }
+        });
 
         west.add(report);
         west.add(sqlInput);

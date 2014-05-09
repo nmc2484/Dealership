@@ -72,6 +72,8 @@ public class SellACar extends JDialog {
                 props.setProperty("price_sold", priceSoldField.getText());
                 dbcon.sellACar(props);
                 closeWindow();
+                JPanel panel = new Inventory(dbcon);
+                DatabaseUI.refresh(panel);
 
             }
         });

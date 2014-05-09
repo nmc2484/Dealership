@@ -51,17 +51,17 @@ public class AddACar extends JPanel {
         cPanel = new JPanel();
         cPanel.setLayout(new GridLayout(11,11));
 
-        theVin = new JLabel("Enter Vin");
+        theVin = new JLabel("Enter Vin (must be 17 characters)");
         themake = new JLabel("Enter Make");
         themodle = new JLabel("Enter Model");
-        theyear = new JLabel("Enter Car Year");
+        theyear = new JLabel("Enter Car Year yyyy");
         thetype = new JLabel("Enter Car type");
         thecolor = new JLabel("Enter color");
         thetransmisson = new JLabel("Enter Transmission");
         thefueltype = new JLabel("Enter Fuel type");
         thepriceobtainedat = new JLabel("Enter price obtained");
         theretailPrice = new JLabel("Enter Retail Price");
-        thedateobtained = new JLabel("Enter Date Obtained");
+        thedateobtained = new JLabel("Enter Date Obtained yyyy/mm/dd");
 
 
         vinfield = new JTextField();

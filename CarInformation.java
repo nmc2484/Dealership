@@ -124,7 +124,7 @@ public class CarInformation extends JPanel {
             centerGrid.add(carYear);
         	topFlowPanel.add(sellCar, BorderLayout.WEST);
             topFlowPanel.add(removeCar, BorderLayout.EAST);
-            topFlowPanel.add(editCar, BorderLayout.CENTER);
+            //topFlowPanel.add(editCar, BorderLayout.CENTER);
         } else if(props.getProperty("Date In") == null) {
         	topFlowPanel.add(removeFromTestDrive, BorderLayout.CENTER);
         	centerGrid.add(carYear);
